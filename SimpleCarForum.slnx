@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="SimpleCarForum.Core/SimpleCarForum.Core.csproj" />
+  <Project Path="SimpleCarForum.Infra/SimpleCarForum.Infra.csproj" />
+  <Project Path="SimpleCarForum/SimpleCarForum.csproj" />
+</Solution>
