@@ -36,5 +36,17 @@ namespace SimpleCarForum.Infra.Data.Models
         [ForeignKey(nameof(AuthorId))]
         [Comment("Navigational property for the author")]
         public ApplicationUser Author { get; set; } = null!;
+
+        [Required]
+        [Comment("Identifier of the post's category")]
+        public int CategoryId { get; set; }
+
+        [ForeignKey(nameof(CategoryId))]
+        [Comment("Navigational property for the category")]
+        public Category Category { get; set; } = null!;
+
+
+        [Comment("Collection of the post's comments")]
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }

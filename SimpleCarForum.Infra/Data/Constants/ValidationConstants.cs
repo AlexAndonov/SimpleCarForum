@@ -23,5 +23,23 @@ namespace SimpleCarForum.Infra.Data.Constants
 
         // Minimal Content Length
         public const int PostContentMinLength = 30;
+
+        // Comment Content Max Length
+        public const int CommentContentMaxLength = 500;
+
+        // Comment Content Min Length
+        public const int CommentContentMinLength = 3;
+
+        //Category Name Max Length
+        public const int CategoryNameMaxLength = 50;
+
+        //Category Name Min Length
+        public const int CategoryNameMinLength = 3;
+
+        //Category Name Max Length
+        public const int CategoryDescriptionMaxLength = 250;
+
+        //Category Name Min Length
+        public const int CategoryDescriptionMinLength = 10;
     }
 }
