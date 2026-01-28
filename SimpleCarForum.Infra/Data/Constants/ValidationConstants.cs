@@ -12,6 +12,8 @@ namespace SimpleCarForum.Infra.Data.Constants
         // User Last Name Max Length
         public const int ApplicationUserLastNameMaxLength = 50;
 
+
+
         // Maximal Post Title Length
         public const int PostTitleMaxLength = 50;
 
@@ -24,11 +26,15 @@ namespace SimpleCarForum.Infra.Data.Constants
         // Minimal Content Length
         public const int PostContentMinLength = 30;
 
+
+
         // Comment Content Max Length
         public const int CommentContentMaxLength = 500;
 
         // Comment Content Min Length
         public const int CommentContentMinLength = 3;
+
+
 
         //Category Name Max Length
         public const int CategoryNameMaxLength = 50;
@@ -41,5 +47,13 @@ namespace SimpleCarForum.Infra.Data.Constants
 
         //Category Name Min Length
         public const int CategoryDescriptionMinLength = 10;
+
+
+
+        // Required Field Error Message
+        public const string RequiredFieldMessage = "The field {0} is required!";
+
+        // Required Text Length Error Message
+        public const string StringLengthErrorMessage = "The field {0} must be between {2} and {1} symbols!";
     }
 }
