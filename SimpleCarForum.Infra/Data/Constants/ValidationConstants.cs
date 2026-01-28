@@ -11,5 +11,17 @@ namespace SimpleCarForum.Infra.Data.Constants
 
         // User Last Name Max Length
         public const int ApplicationUserLastNameMaxLength = 50;
+
+        // Maximal Post Title Length
+        public const int PostTitleMaxLength = 50;
+
+        ///Minimal Post Title Length
+        public const int PostTitleMinLength = 10;
+
+        // Maximal Content Length
+        public const int PostContentMaxLength = 1500;
+
+        // Minimal Content Length
+        public const int PostContentMinLength = 30;
     }
 }
