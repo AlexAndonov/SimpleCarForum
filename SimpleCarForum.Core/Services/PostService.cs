@@ -32,7 +32,8 @@ namespace SimpleCarForum.Core.Services
             await context.AddAsync(post);
             await context.SaveChangesAsync();
 
-            var user = await context.Users.FindAsync(userId);
+            var user = await context.Users.FindAsync(userId) ?? throw new InvalidOperationException("Author not found!");
+
             await context.Entry(post).Reference(p => p.Category).LoadAsync();
 
             return new PostDto()
