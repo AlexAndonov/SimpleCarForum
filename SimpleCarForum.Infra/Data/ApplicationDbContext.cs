@@ -19,7 +19,7 @@ namespace SimpleCarForum.Data
             builder.Entity<Comment>()
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<Post>()
                 .HasOne(p => p.Category)
