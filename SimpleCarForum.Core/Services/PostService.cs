@@ -53,13 +53,15 @@ namespace SimpleCarForum.Core.Services
         {
 
             Post? post = await context.Posts
-                .SingleOrDefaultAsync(p => p.Id == id);
+                .Include(p => p.Comments)
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             if (post == null)
             {
                 return false;
             }
 
+            context.RemoveRange(post.Comments);
             context.Remove(post);
             await context.SaveChangesAsync();
 
@@ -90,7 +92,7 @@ namespace SimpleCarForum.Core.Services
             Post? post = await context.Posts
               .Include(p => p.Author)
               .Include(p => p.Category)
-              .SingleOrDefaultAsync(p => p.Id == id);
+              .FirstOrDefaultAsync(p => p.Id == id);
 
             if (post == null)
             {
@@ -115,7 +117,7 @@ namespace SimpleCarForum.Core.Services
             Post? post = await context.Posts
             .Include(p => p.Author)
             .Include(p => p.Category)
-            .SingleOrDefaultAsync(p => p.Id == model.Id);
+            .FirstOrDefaultAsync(p => p.Id == model.Id);
 
             if (post == null)
             {
