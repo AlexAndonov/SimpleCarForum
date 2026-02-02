@@ -87,6 +87,7 @@ namespace SimpleCarForum.Controllers
 		}
 
 		[HttpPost, ActionName("Delete")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeleteConfirm(int id)
 		{
 			await service.DeleteAsync(id);
