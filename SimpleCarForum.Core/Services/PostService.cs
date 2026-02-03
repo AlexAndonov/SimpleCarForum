@@ -18,7 +18,7 @@ namespace SimpleCarForum.Core.Services
             context = _context;
         }
 
-        public async Task<PostDto> Create(PostCreateDto model, string userId)
+        public async Task<PostDto> CreateAsync(PostCreateDto model, string userId)
         {
             Post post = new Post()
             {
@@ -49,7 +49,7 @@ namespace SimpleCarForum.Core.Services
             };
         }
 
-        public async Task<bool> Delete(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
 
             Post? post = await context.Posts
@@ -87,7 +87,7 @@ namespace SimpleCarForum.Core.Services
                 .ToListAsync();
         }
 
-        public async Task<PostDto?> GetById(Guid id)
+        public async Task<PostDto?> GetByIdAsync(Guid id)
         {
             Post? post = await context.Posts
               .Include(p => p.Author)
@@ -112,7 +112,7 @@ namespace SimpleCarForum.Core.Services
             };
         }
 
-        public async Task<PostDto?> Update(PostEditDto model)
+        public async Task<PostDto?> UpdateAsync(PostEditDto model)
         {
             Post? post = await context.Posts
             .Include(p => p.Author)

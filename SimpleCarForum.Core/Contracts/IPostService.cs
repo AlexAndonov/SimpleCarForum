@@ -8,9 +8,9 @@ namespace SimpleCarForum.Core.Contracts
     public interface IPostService
     {
         Task<IEnumerable<PostDto>> GetAllAsync();
-        Task<PostDto?> GetById(Guid id);
-        Task<PostDto> Create(PostCreateDto model, string userId);
-        Task<PostDto?> Update(PostEditDto model);
-        Task<bool> Delete(Guid id);
+        Task<PostDto?> GetByIdAsync(Guid id);
+        Task<PostDto> CreateAsync(PostCreateDto model, string userId);
+        Task<PostDto?> UpdateAsync(PostEditDto model);
+        Task<bool> DeleteAsync(Guid id);
     }
 }
