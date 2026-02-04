@@ -86,7 +86,7 @@ namespace SimpleCarForum.Controllers
 			return View(model);
 		}
 
-		[HttpPost, ActionName("Delete")]
+		[HttpPost, ActionName(nameof(Delete))]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> DeleteConfirm(int id)
 		{

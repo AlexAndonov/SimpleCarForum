@@ -1,9 +1,5 @@
-using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using SimpleCarForum.Data;
-using Microsoft.AspNetCore.Identity;
 using SimpleCarForum.Infra.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
