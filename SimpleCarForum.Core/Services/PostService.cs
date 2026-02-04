@@ -112,7 +112,12 @@ namespace SimpleCarForum.Core.Services
             };
         }
 
-        public async Task<PostDto?> UpdateAsync(PostEditDto model)
+		public async Task<bool> IsOwnerAsync(Guid postId, string userId)
+		{
+            return context.Posts.Any(p => p.Id == postId && p.AuthorId == userId);
+		}
+
+		public async Task<PostDto?> UpdateAsync(PostEditDto model)
         {
             Post? post = await context.Posts
             .Include(p => p.Author)

@@ -12,5 +12,6 @@ namespace SimpleCarForum.Core.Contracts
         Task<PostDto> CreateAsync(PostCreateDto model, string userId);
         Task<PostDto?> UpdateAsync(PostEditDto model);
         Task<bool> DeleteAsync(Guid id);
+        Task<bool> IsOwnerAsync(Guid postId, string userId);
     }
 }
