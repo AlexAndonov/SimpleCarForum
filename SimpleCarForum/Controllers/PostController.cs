@@ -1,32 +1,62 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SimpleCarForum.Core.Contracts;
-using SimpleCarForum.Core.ViewModels;
+using SimpleCarForum.Core.ViewModels.Post;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace SimpleCarForum.Controllers
 {
 	public class PostController : Controller
 	{
 		private readonly IPostService service;
+		private readonly ICategoryService categoryService;
 
-		public PostController(IPostService _service)
+		public PostController(IPostService _service, ICategoryService _categoryService)
 		{
 			service = _service;
+			categoryService = _categoryService;
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(int? categoryId)
 		{
-			var model = await service.GetAllAsync();
-			return View(model);
+			IEnumerable<PostDto> posts;
+
+			if (categoryId.HasValue)
+			{
+				posts = await service.GetPostsByCategoryAsync(categoryId);
+			}
+			else
+			{
+				posts = await service.GetAllAsync();
+			}
+
+			return View(posts);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Details(Guid id)
+		{
+			PostDto? post = await service.GetByIdAsync(id);
+
+			if (post == null)
+			{
+				return NotFound();
+			}
+
+			return View(post);
 		}
 
 		[HttpGet]
 		[Authorize]
-		public IActionResult Create()
+		public async Task<IActionResult> Create()
 		{
+			await LoadCategoriesAsync();
+
 			var model = new PostCreateDto();
+
 			return View(model);
 		}
 
@@ -36,6 +66,7 @@ namespace SimpleCarForum.Controllers
 		{
 			if (ModelState.IsValid == false)
 			{
+				await LoadCategoriesAsync();
 				return View(model);
 			}
 
@@ -55,12 +86,14 @@ namespace SimpleCarForum.Controllers
 		[Authorize]
 		public async Task<IActionResult> Edit(Guid id)
 		{
-			var model = await service.GetByIdAsync(id);
+			var model = await service.GetForEditAsync(id);
 
 			if (model == null)
 			{
 				return NotFound();
 			}
+
+			await LoadCategoriesAsync();
 
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -78,6 +111,12 @@ namespace SimpleCarForum.Controllers
 		[Authorize]
 		public async Task<IActionResult> Edit(PostEditDto model)
 		{
+			if (ModelState.IsValid == false)
+			{
+				await LoadCategoriesAsync();
+				return View(model);
+			}
+
 			var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
 			if (!await service.IsOwnerAsync(model.Id, userId!))
@@ -85,14 +124,14 @@ namespace SimpleCarForum.Controllers
 				return Forbid();
 			}
 
-			if (ModelState.IsValid == false)
+			bool success = await service.UpdateAsync(model);
+
+			if (!success)
 			{
-				return View(model);
+				return NotFound();
 			}
 
-			await service.UpdateAsync(model);
-
-			return RedirectToAction(nameof(Index));
+			return RedirectToAction(nameof(Details), new { id = model.Id});
 		}
 
 		[HttpGet]
@@ -118,7 +157,7 @@ namespace SimpleCarForum.Controllers
 			return View(model);
 		}
 
-		[HttpPost,ActionName(nameof(Delete))]
+		[HttpPost, ActionName(nameof(Delete))]
 		[Authorize]
 		public async Task<IActionResult> DeleteConfirm(Guid id)
 		{
@@ -133,6 +172,19 @@ namespace SimpleCarForum.Controllers
 
 			await service.DeleteAsync(id);
 			return RedirectToAction(nameof(Index));
+		}
+
+		private async Task LoadCategoriesAsync()
+		{
+			var categories = await categoryService.GetAllAsync();
+
+			ViewBag.Categories = categories
+				.Select(c => new SelectListItem()
+				{
+					Value = c.Id.ToString(),
+					Text = c.Name,
+				})
+				.ToList();
 		}
 	}
 }
