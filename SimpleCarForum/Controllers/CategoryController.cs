@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SimpleCarForum.Core.Contracts;
-using SimpleCarForum.Core.ViewModels;
+using SimpleCarForum.Core.ViewModels.Category;
 
 namespace SimpleCarForum.Controllers
 {
