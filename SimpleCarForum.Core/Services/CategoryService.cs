@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleCarForum.Core.Contracts;
-using SimpleCarForum.Core.ViewModels;
+using SimpleCarForum.Core.ViewModels.Category;
 using SimpleCarForum.Data;
 using SimpleCarForum.Infra.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SimpleCarForum.Core.Services
 {
