@@ -1,8 +1,4 @@
-﻿using SimpleCarForum.Core.ViewModels;
-using SimpleCarForum.Infra.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using SimpleCarForum.Core.ViewModels.Category;
 
 namespace SimpleCarForum.Core.Contracts
 {
