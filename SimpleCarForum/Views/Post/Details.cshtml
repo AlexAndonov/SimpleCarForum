@@ -1,0 +1,34 @@
+﻿@model PostDto
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<div class="container mt-5">
+    <div class="card shadow border-0 mx-auto" style="max-width: 800px;">
+        <div class="card-body p-4">
+
+            <h2 class="fw-bold mb-3">@Model.Title</h2>
+
+            <div class="d-flex justify-content-between align-items-center mb-4 text-muted small">
+                <div>
+                    <span>By <strong>@Model.AuthorName</strong></span> |
+                    <span>@Model.CreatedOn</span>
+                </div>
+                <div>
+                    <span class="badge bg-primary">@Model.CategoryName</span>
+                </div>
+            </div>
+
+            <div class="mb-4" style="white-space: pre-line;">
+                @Model.Content
+            </div>
+
+            <div class="text-end">
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    ← Back to posts
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
