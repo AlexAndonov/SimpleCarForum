@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using static SimpleCarForum.Infra.Data.Constants.ValidationConstants;
 
-namespace SimpleCarForum.Core.ViewModels
+namespace SimpleCarForum.Core.ViewModels.Post
 {
     public class PostEditDto
     {

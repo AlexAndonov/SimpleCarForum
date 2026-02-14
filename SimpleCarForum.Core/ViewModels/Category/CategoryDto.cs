@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using static SimpleCarForum.Infra.Data.Constants.ValidationConstants;
 
-namespace SimpleCarForum.Core.ViewModels
+namespace SimpleCarForum.Core.ViewModels.Category
 {
 	public class CategoryDto
 	{
