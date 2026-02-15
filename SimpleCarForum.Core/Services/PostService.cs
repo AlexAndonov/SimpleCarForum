@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SimpleCarForum.Core.Contracts;
+using SimpleCarForum.Core.ViewModels.Comment;
 using SimpleCarForum.Core.ViewModels.Post;
 using SimpleCarForum.Data;
 using SimpleCarForum.Infra.Data.Models;
@@ -93,6 +94,8 @@ namespace SimpleCarForum.Core.Services
 			Post? post = await context.Posts
 			  .Include(p => p.Author)
 			  .Include(p => p.Category)
+			  .Include(p =>p.Comments)
+			  .ThenInclude(c =>  c.Author)
 			  .FirstOrDefaultAsync(p => p.Id == id);
 
 			if (post == null)
@@ -110,6 +113,17 @@ namespace SimpleCarForum.Core.Services
 				AuthorName = post.Author.FirstName + " " + post.Author.LastName,
 				CategoryId = post.CategoryId,
 				CategoryName = post.Category.Name,
+				Comments = post.Comments
+				.Select(c => new CommentDto()
+				{
+					Id = c.Id,
+					Content = c.Content,
+					AuthorId = c.AuthorId,
+					AuthorName = c.Author.FirstName + " " + c.Author.LastName,
+					CreatedOn = c.CreatedOn,
+				})
+				.OrderByDescending(c => c.CreatedOn)	
+				.ToList()
 			};
 		}
 
