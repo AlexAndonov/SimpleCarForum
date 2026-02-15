@@ -15,8 +15,12 @@ namespace SimpleCarForum.Core.ViewModels.Comment
 		[Required]
 		public Guid Id { get; set; }
 
+		[Display(Name = "Comment")]
 		[Required(ErrorMessage = RequiredFieldMessage)]
-		[MaxLength(CommentContentMaxLength, ErrorMessage = StringLengthErrorMessage)]
+		[StringLength(CommentContentMaxLength, ErrorMessage = StringLengthErrorMessage)]
 		public string Content { get; set; } = null!;
+
+		[Required]
+		public Guid PostId { get; set; }
 	}
 }
