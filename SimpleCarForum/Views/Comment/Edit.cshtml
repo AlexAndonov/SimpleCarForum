@@ -1,0 +1,17 @@
+﻿@model CommentEditDto
+
+<div class="container mt-5" style="max-width: 600px;">
+    <h4>Edit Comment</h4>
+
+    <form asp-action="Edit" asp-controller="Comment" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="PostId" />
+        <div class="mb-3">
+            <textarea asp-for="Content" class="form-control" rows="4" required></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-warning">Save</button>
+        <a asp-action="Details" asp-controller="Post" asp-route-id="@Model.PostId" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
