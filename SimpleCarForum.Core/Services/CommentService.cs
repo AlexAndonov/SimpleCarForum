@@ -22,6 +22,7 @@ namespace SimpleCarForum.Core.Services
 		{
 			Comment comment = new Comment()
 			{
+				Id = Guid.NewGuid(),
 				Content = model.Content,
 				AuthorId = userId,
 				CreatedOn = DateTime.UtcNow,
@@ -35,9 +36,12 @@ namespace SimpleCarForum.Core.Services
 
 			return new CommentDto()
 			{
+				Id = comment.Id,
 				Content = comment.Content,
+				AuthorId = comment.AuthorId,
 				AuthorName = user.FirstName + " " + user.LastName,
 				CreatedOn = comment.CreatedOn,
+				PostId = comment.PostId,
 			};
 		}
 
@@ -70,8 +74,10 @@ namespace SimpleCarForum.Core.Services
 			return new CommentDto()
 			{
 				Content = comment.Content,
+				AuthorId = comment.AuthorId,
 				AuthorName = comment.Author.FirstName + " " + comment.Author.LastName,
-				CreatedOn = comment.CreatedOn
+				CreatedOn = comment.CreatedOn,
+				PostId = comment.PostId,
 			};
 		}
 
@@ -83,8 +89,10 @@ namespace SimpleCarForum.Core.Services
 				.Select(c => new CommentDto()
 				{
 					Content = c.Content,
+					AuthorId = c.AuthorId,
 					AuthorName = c.Author.FirstName + " " + c.Author.LastName,
 					CreatedOn = c.CreatedOn,
+					PostId = c.PostId
 				})
 				.OrderBy(c => c.CreatedOn)	
 				.ToListAsync();
