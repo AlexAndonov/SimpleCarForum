@@ -1,8 +1,77 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using System.Security.Claims
+@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+
+<div class="p-5 bg-body-secondary text-center mb-5 shadow-sm">
+    <h1 class="display-4 fw-bold">Discuss Cars. Share Knowledge. Help Others.</h1>
+    <p class="lead">Community-driven car discussions, tips, and troubleshooting.</p>
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <a asp-controller="Post" asp-action="Create" class="btn btn-primary btn-lg me-2">Create Post</a>
+        <a asp-controller="Category" asp-action="Index" class="btn btn-outline-primary btn-lg">Browse Categories</a>
+    }
+    else
+    {
+        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg me-2">Join the Community</a>
+        <a asp-controller="Category" asp-action="Index" class="btn btn-outline-primary btn-lg">Browse Categories</a>
+    }
+</div>
+<div class="container mb-5">
+    <h3 class="mb-3">Categories</h3>
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        @foreach (var cat in Model.Categories)
+        {
+            <div class="col">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@cat.Name</h5>
+                        <p class="card-text text-muted">@cat.Description</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                        <a asp-controller="Post" asp-action="Index" asp-route-categoryId="@cat.Id" class="btn btn-sm btn-outline-primary">View</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <h3 class="mb-3">Latest Discussions</h3>
+    <div class="list-group mb-2">
+        @foreach (var post in Model.Posts.OrderByDescending(p => p.CreatedOn))
+        {
+            <div class="list-group-item shadow-sm mb-4 rounded border-3">
+                <a asp-controller="Post" asp-action="Details" asp-route-id="@post.Id" class="text-decoration-none text-dark">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">@post.Title</h5>
+                        <small class="text-muted">@post.CreatedOn.ToString("g")</small>
+                    </div>
+
+                    <p class="mb-1 text-muted">
+                        Category: @post.CategoryName | Author: @post.AuthorName
+                    </p>
+                </a>
+                <div class="mt-2">
+                    @if (User.Identity?.IsAuthenticated == true &&
+                                    User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier) == post.AuthorId)
+                    {
+                        <a asp-controller="Post" asp-action="Edit" asp-route-id="@post.Id" class="btn btn-sm btn-warning me-2">Edit</a>
+                    }
+
+                    @if (User.Identity?.IsAuthenticated == true &&
+                                    (User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier) == post.AuthorId
+                                    || User.IsInRole("Admin")))
+                    {
+                        <a asp-controller="Post" asp-action="Delete" asp-route-id="@post.Id" class="btn btn-sm btn-danger">Delete</a>
+                    }
+                </div>
+
+            </div>
+        }
+    </div>
 </div>
