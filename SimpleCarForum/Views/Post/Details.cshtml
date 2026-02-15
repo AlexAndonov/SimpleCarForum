@@ -1,34 +1,91 @@
-﻿@model PostDto
-
-@{
-    ViewData["Title"] = Model.Title;
-}
+﻿@using System.Security.Claims
+@model PostDto
 
 <div class="container mt-5">
     <div class="card shadow border-0 mx-auto" style="max-width: 800px;">
         <div class="card-body p-4">
-
             <h2 class="fw-bold mb-3">@Model.Title</h2>
-
             <div class="d-flex justify-content-between align-items-center mb-4 text-muted small">
                 <div>
                     <span>By <strong>@Model.AuthorName</strong></span> |
-                    <span>@Model.CreatedOn</span>
+                    <span>@Model.CreatedOn.ToString("g")</span>
                 </div>
                 <div>
                     <span class="badge bg-primary">@Model.CategoryName</span>
                 </div>
             </div>
-
             <div class="mb-4" style="white-space: pre-line;">
                 @Model.Content
             </div>
 
-            <div class="text-end">
-                <a asp-action="Index" class="btn btn-outline-secondary">
-                    ← Back to posts
-                </a>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="mb-4">
+                    @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.AuthorId)
+                    {
+                        <a asp-controller="Post" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-warning me-2">Edit</a>
+                    }
+
+                    @if (User.FindFirstValue(ClaimTypes.NameIdentifier) == Model.AuthorId || User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Post" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-sm btn-danger">Delete</a>
+                    }
+                </div>
+            }
+
+            <div class="text-end mb-5">
+                <a asp-action="Index" class="btn btn-outline-secondary">← Back to posts</a>
             </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <h5 class="mb-3">Comments</h5>
+
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <form asp-action="Create" asp-controller="Comment" method="post" class="mb-4">
+                <input type="hidden" name="PostId" value="@Model.Id" />
+                <div class="mb-3">
+                    <textarea name="Content" class="form-control" rows="3" placeholder="Write your comment here..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        }
+        else
+        {
+            <p class="text-muted">
+                Please <a href="/Identity/Account/Login" class="text-primary">log in</a> to post a comment.
+            </p>
+        }
+
+        <div id="comment-block">
+            @if (Model.Comments != null && Model.Comments.Any())
+            {
+                @foreach (var c in Model.Comments.OrderByDescending(c => c.CreatedOn))
+                {
+                    <div class="border rounded p-3 mb-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong>@c.AuthorName</strong>
+                            <small class="text-muted">@c.CreatedOn.ToString("g")</small>
+                        </div>
+                        <p>@c.Content</p>
+
+                        @if (User.Identity!.IsAuthenticated && User.FindFirstValue(ClaimTypes.NameIdentifier) == c.AuthorId)
+                        {
+                            <a asp-controller="Comment" asp-action="Edit" asp-route-id="@c.Id" class="btn btn-sm btn-warning me-2">Edit</a>
+                        }
+                        @if (User.Identity.IsAuthenticated && (User.FindFirstValue(ClaimTypes.NameIdentifier) == c.AuthorId || User.IsInRole("Admin")))
+                        {
+                            <a asp-controller="Comment" asp-action="Delete" asp-route-id="@c.Id" class="btn btn-sm btn-danger">Delete</a>
+                        }
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No comments yet. Be the first to comment!</p>
+            }
         </div>
     </div>
 </div>
