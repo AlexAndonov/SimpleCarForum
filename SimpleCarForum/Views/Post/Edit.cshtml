@@ -42,12 +42,12 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a asp-action="Index" class="text-decoration-none">
-                        ← Back to posts
+                    <a asp-action="Details" asp-route-id="@Model.Id" class="text-decoration-none">
+                        ← Back to post
                     </a>
 
                     <button type="submit" class="btn btn-warning px-4">
-                        Publish
+                        Save
                     </button>
                 </div>
 
