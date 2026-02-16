@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SimpleCarForum.Infra.Data.Models;
+using SimpleCarForum.Infra.Data.SeedDb;
 
 namespace SimpleCarForum.Data
 {
@@ -25,6 +26,8 @@ namespace SimpleCarForum.Data
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Posts)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.ApplyConfiguration(new CategoryConfiguration());
         }
 
         public DbSet<Post> Posts { get; set; }
