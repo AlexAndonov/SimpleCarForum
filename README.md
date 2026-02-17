@@ -59,32 +59,36 @@ Make sure you have the following installed before running the project:
 
 ## 🚀 Getting Started
 
+> ⚠️ **Important:** Make sure `SimpleCarForum.Web` is set as the **Startup Project** (right-click → Set as Startup Project) before running any commands, especially `Update-Database`.
+> ⚠️ **Important:** In Visual Studio Package Manager Console (PMC), set **Default project** to `SimpleCarForum.Infra` before running `Update-Database`.
+
 Follow these steps to get the project running locally.
 
 ### 1. Clone the repository
-
-```bash
-git clone https://github.com/AlexAndonov/SimpleCarForum.git
+git clone https://github.com/AlexAndonov/SimpleCarForum.git  
 cd SimpleCarForum
-```
 
 ### 2. Restore dependencies
-
-```bash
 dotnet restore
-```
 
 ### 3. Apply database migrations
 
-```bash
-dotnet ef database update
-```
+Using .NET CLI:  
+dotnet ef database update --project SimpleCarForum.Infra --startup-project SimpleCarForum.Web
+
+Using Visual Studio Package Manager Console (PMC):  
+1. Open Visual Studio  
+2. Go to Tools → NuGet Package Manager → Package Manager Console  
+3. Make sure Default project in PMC is set to SimpleCarForum.Infra 
+4. Run: Update-Database
 
 ### 4. Run the application
 
-```bash
+Using .NET CLI:  
 dotnet run --project SimpleCarForum.Web
-```
+
+Using Visual Studio:  
+press F5 or Ctrl+F5 to run
 
 The application will start using the URLs configured in launchSettings.json.
 
