@@ -9,11 +9,11 @@ using SimpleCarForum.Data;
 
 #nullable disable
 
-namespace SimpleCarForum.Data.Migrations
+namespace SimpleCarForum.Infra.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260202191722_initial")]
-    partial class initial
+    [Migration("20260217070726_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,7 +77,7 @@ namespace SimpleCarForum.Data.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -102,7 +102,7 @@ namespace SimpleCarForum.Data.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(128)
@@ -126,7 +126,7 @@ namespace SimpleCarForum.Data.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -141,7 +141,7 @@ namespace SimpleCarForum.Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -264,6 +264,38 @@ namespace SimpleCarForum.Data.Migrations
                         {
                             t.HasComment("Categories for the posts");
                         });
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Discussions about engines, tuning, performance upgrades, turbo setups, and power optimization.",
+                            Name = "Engine & Performance"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Troubleshooting issues, regular maintenance, DIY repairs, and service advice.",
+                            Name = "Maintenance & Repairs"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Battery problems, sensors, ECU errors, OBD diagnostics, and electrical system discussions.",
+                            Name = "Electrical & Diagnostics"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Car buying tips, resale advice, market insights, and vehicle recommendations.",
+                            Name = "Buying & Selling Advice"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Open discussions about cars, brands, news, and automotive trends.",
+                            Name = "General Discussion"
+                        });
                 });
 
             modelBuilder.Entity("SimpleCarForum.Infra.Data.Models.Comment", b =>
@@ -357,7 +389,7 @@ namespace SimpleCarForum.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("SimpleCarForum.Infra.Data.Models.ApplicationUser", null)
                         .WithMany()
@@ -366,7 +398,7 @@ namespace SimpleCarForum.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("SimpleCarForum.Infra.Data.Models.ApplicationUser", null)
                         .WithMany()
@@ -375,7 +407,7 @@ namespace SimpleCarForum.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
@@ -390,7 +422,7 @@ namespace SimpleCarForum.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.ApplicationUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.HasOne("SimpleCarForum.Infra.Data.Models.ApplicationUser", null)
                         .WithMany()

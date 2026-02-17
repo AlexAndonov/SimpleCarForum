@@ -28,7 +28,7 @@ namespace SimpleCarForum.Data
 				.OnDelete(DeleteBehavior.NoAction);
 
 			builder.ApplyConfiguration(new CategoryConfiguration());
-			builder.ApplyConfiguration(new PostConfiguration());
+			//builder.ApplyConfiguration(new PostConfiguration());
 		}
 
 		public DbSet<Post> Posts { get; set; }
